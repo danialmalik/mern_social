@@ -1,46 +1,11 @@
-const create = (user) => {
-    return fetch('/api/users/', {
+const create = (params, credentials, post) => {
+    return fetch('/api/posts/new/'+ params.userId, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    })
-        .then((response) => {
-            return response.json();
-        }).catch((err) => console.log(err));
-};
-
-const list = () => {
-    return fetch('/api/users/', {
-        method: 'GET',
-    }).then(response => {
-        return response.json();
-    }).catch((err) => console.log(err));
-};
-
-const read = (params, credentials) => {
-    return fetch('/api/users/' + params.userId, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + credentials.t
-        }
-    }).then((response) => {
-        return response.json();
-    }).catch((err) => console.log(err));
-};
-
-const update = (params, credentials, user) => {
-    return fetch('/api/users/' + params.userId, {
-        method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
             'Authorization': 'Bearer ' + credentials.t
         },
-        body: user
+        body: post
     }).then((response) => {
         return response.json();
     }).catch((err) => {
@@ -48,8 +13,34 @@ const update = (params, credentials, user) => {
     });
 };
 
+const listByUser = (params, credentials) => {
+    return fetch('/api/posts/by/'+ params.userId, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + credentials.t
+        }
+    }).then(response => {
+        return response.json();
+    }).catch((err) => console.log(err));
+};
+
+const listNewsFeed = (params, credentials) => {
+    return fetch('/api/posts/feed/'+ params.userId, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + credentials.t
+        }
+    }).then(response => {
+        return response.json();
+    }).catch((err) => console.log(err));
+};
+
 const remove = (params, credentials) => {
-    return fetch('/api/users/' + params.userId, {
+    return fetch('/api/posts/' + params.postId, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -58,18 +49,20 @@ const remove = (params, credentials) => {
         }
     }).then((response) => {
         return response.json();
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+        console.log(err);
+    });
 };
 
-const follow = (params, credentials, followId) => {
-    return fetch('/api/users/follow/', {
+const like = (params, credentials, postId) => {
+    return fetch('/api/posts/like/', {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + credentials.t
         },
-        body: JSON.stringify({userId:params.userId, followId: followId})
+        body: JSON.stringify({userId:params.userId, postId: postId})
     }).then((response) => {
         return response.json();
     }).catch((err) => {
@@ -77,15 +70,15 @@ const follow = (params, credentials, followId) => {
     });
 };
 
-const unfollow = (params, credentials, unfollowId) => {
-    return fetch('/api/users/unfollow/', {
+const unlike = (params, credentials, postId) => {
+    return fetch('/api/posts/unlike/', {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + credentials.t
         },
-        body: JSON.stringify({userId:params.userId, unfollowId: unfollowId})
+        body: JSON.stringify({userId:params.userId, postId: postId})
     }).then((response) => {
         return response.json();
     }).catch((err) => {
@@ -93,26 +86,45 @@ const unfollow = (params, credentials, unfollowId) => {
     });
 };
 
-const findPeople = (params, credentials) => {
-    return fetch('/api/users/findpeople/' + params.userId, {
-        method: 'GET',
+const comment = (params, credentials, postId, comment) => {
+    return fetch('/api/posts/comment/', {
+        method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + credentials.t
-        }
+        },
+        body: JSON.stringify({userId:params.userId, postId: postId, comment: comment})
     }).then((response) => {
         return response.json();
-    }).catch((err) => console.log(err));
+    }).catch((err) => {
+        console.log(err);
+    });
+};
+
+const uncomment = (params, credentials, postId, comment) => {
+    return fetch('/api/posts/uncomment/', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + credentials.t
+        },
+        body: JSON.stringify({userId:params.userId, postId: postId, comment: comment})
+    }).then((response) => {
+        return response.json();
+    }).catch((err) => {
+        console.log(err);
+    });
 };
 
 export {
+    listNewsFeed,
+    listByUser,
     create,
-    list,
-    read,
-    update,
     remove,
-    follow,
-    unfollow,
-    findPeople
+    like,
+    unlike,
+    comment,
+    uncomment
 };
