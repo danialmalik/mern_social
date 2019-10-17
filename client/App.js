@@ -22,7 +22,7 @@ const theme = createMuiTheme({
         },
         openTitle: teal['700'],
         protectedTitle: orange['700'],
-        type: 'dark'
+        type: 'light'
     }
 });
 
