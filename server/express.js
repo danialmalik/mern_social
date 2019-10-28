@@ -1,3 +1,4 @@
+//Imports Start
 import express from 'express';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -19,8 +20,8 @@ import StaticRouter from 'react-router-dom/StaticRouter';
 import { SheetsRegistry } from 'react-jss/lib/jss';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from 'material-ui/styles';
-import {teal, orange} from 'material-ui/colors';
-//end
+import { teal, orange } from 'material-ui/colors';
+//Imports end
 
 //comment out before building for production
 import devBundle from './devBundle';
@@ -75,7 +76,7 @@ app.get('*', (req, res) => {
         <StaticRouter location={req.url} context={context}>
             <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
                 <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-                    <MainRouter/>
+                    <MainRouter />
                 </MuiThemeProvider>
             </JssProvider>
         </StaticRouter>
@@ -93,7 +94,7 @@ app.get('*', (req, res) => {
 // Catch unauthorised errors
 app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
-        res.status(401).json({'error' : err.name + ': ' + err.message});
+        res.status(401).json({ 'error': err.name + ': ' + err.message });
     }
 });
 

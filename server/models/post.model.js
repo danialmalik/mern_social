@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import crypto from 'crypto';
+
 const PostSchema = new mongoose.Schema({
     text: {
         type: String,
@@ -9,13 +9,13 @@ const PostSchema = new mongoose.Schema({
         data: Buffer,
         contentType: String
     },
-    likes: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
+    likes: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
     comments: [{
         text: String,
         created: { type: Date, default: Date.now },
-        postedBy: { type: mongoose.Schema.ObjectId, ref: 'User'}
+        postedBy: { type: mongoose.Schema.ObjectId, ref: 'User' }
     }],
-    postedBy: {type: mongoose.Schema.ObjectId, ref: 'User'},
+    postedBy: { type: mongoose.Schema.ObjectId, ref: 'User' },
     created: {
         type: Date,
         default: Date.now
